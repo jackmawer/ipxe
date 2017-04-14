@@ -1,0 +1,12 @@
+#!ipxe
+#This is the embedded script for initializing iPXE
+
+prompt --key 0x02 --timeout 2000 Press Ctrl-B for the iPXE command line... && shell ||
+:dhcp
+echo Trying DHCP...
+dhcp %% DHCP succeeded || echo DHCP failed && goto dhcp
+echo IP address: ${net0/ip} ; echo Subnet mask: ${net0/netmask}
+prompt --key 0x02 --timeout 2000 Press Ctrl-B for the iPXE command line... && shell ||
+chain http://ipxe.mawersoft.co.uk/boot.ipxe ||
+prompt --key 0x02 --timeout 2000 Press Ctrl-B for the iPXE command line... && shell ||
+exit

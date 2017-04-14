@@ -4,7 +4,7 @@
 :dhcp
 prompt --key 0x02 --timeout 2000 Press Ctrl-B for the iPXE command line... && shell ||
 echo Trying DHCP...
-dhcp %% DHCP succeeded || echo DHCP failed && goto dhcp
+dhcp || echo DHCP failed && goto dhcp
 echo IP address: ${net0/ip} ; echo Subnet mask: ${net0/netmask}
 prompt --key 0x02 --timeout 2000 Press Ctrl-B for the iPXE command line... && shell ||
 chain http://ipxe.mawersoft.co.uk/boot.ipxe ||

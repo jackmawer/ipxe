@@ -56,7 +56,7 @@ chain http://boot.netboot.xyz
 goto menu
 
 :bfo
-chain http://dl.fedoraproject.org/pub/alt/bfo/bfo.iso
+chain http://dl.fedoraproject.org/pub/alt/bfo/ipxe.iso
 goto menu
 
 :netinfo

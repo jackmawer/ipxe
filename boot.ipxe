@@ -6,7 +6,7 @@ echo It works!
 ## MAIN MENU ##
 
 :menu
-menu iPXE boot menu for ${initiator-iqn}
+menu Mawersoft iPXE Boot Menu
 item --gap Boot from
 item netboot              NetBoot.xyz
 item --gap Advanced Options

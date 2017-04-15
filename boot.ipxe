@@ -2,6 +2,7 @@
 
 #console --picture http://boot.ipxe.org/ipxe.png
 echo It works!
+config
 prompt --key 0x02 --timeout 2000 Press Ctrl-B for the iPXE command line... && shell ||
 imgfree
 chain http://ipxe.mawersoft.co.uk/boot.ipxe

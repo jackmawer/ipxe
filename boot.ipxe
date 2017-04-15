@@ -1,6 +1,5 @@
 #!ipxe
 
-:loop
 echo It works!
 prompt --key 0x02 --timeout 2000 Press Ctrl-B for the iPXE command line... && shell ||
-goto loop
+chain http://ipxe.mawersoft.co.uk/boot.ipxe

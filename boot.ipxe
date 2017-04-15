@@ -4,5 +4,7 @@
 echo It works!
 config
 prompt --key 0x02 --timeout 2000 Press Ctrl-B for the iPXE command line... && shell ||
+:loop
 imgfree
-chain http://ipxe.mawersoft.co.uk/boot.ipxe
+chain http://ipxe.mawersoft.co.uk/boot.ipxe ||
+goot loop

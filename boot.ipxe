@@ -1,18 +1,27 @@
 #!ipxe
 
-#console --picture http://boot.ipxe.org/ipxe.png
 echo It works!
+
+
+:start
+chain --autofree boot.cfg ||
+iseq ${cls} serial && goto ignore_cls ||
+set cls:hex 1b:5b:4a  # ANSI clear screen sequence - "^[[J"
+set cls ${cls:string}
+:ignore_cls
 
 ## MAIN MENU ##
 
 :menu
 menu Mawersoft iPXE Boot Menu
-item --gap Boot from
-item netboot              NetBoot.xyz
+item --gap Boot Locations
+item minixp               MiniXP
+item netboot              (C) NetBoot.xyz
 item --gap Advanced Options
 item --key c config       Configure settings
 item shell                Drop to iPXE shell
 item reload               Reload script
+item netinfo              Network Information
 item --gap Power Options
 item reboot               Reboot computer
 item shutdown             Shutdown computer
@@ -37,9 +46,34 @@ goto menu
 echo Booting failed, dropping to shell
 goto shell
 
+:minixp
+initrd /images/mxp14.iso
+chain /memdisk iso raw || goto failed
+
 :netboot
 chain http://boot.netboot.xyz
 goto menu
+
+:netinfo
+menu Network info
+item --gap MAC:
+item mac ${space} ${netX/mac}
+item --gap IP/mask:
+item ip ${space} ${netX/ip}/${netX/netmask}
+item --gap Gateway:
+item gw ${space} ${netX/gateway}
+item --gap Domain:
+item domain ${space} ${netX/domain}
+item --gap DNS:
+item dns ${space} ${netX/dns}
+item --gap DHCP server:
+item dhcpserver ${space} ${netX/dhcp-server}
+item --gap Next-server:
+item nextserver ${space} ${next-server}
+item --gap Filename:
+item filename ${space} ${netX/filename}
+choose empty ||
+goto main_menu
 
 :shutdown
 shutdown

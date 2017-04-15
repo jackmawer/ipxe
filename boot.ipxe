@@ -16,6 +16,7 @@ set cls ${cls:string}
 menu Mawersoft iPXE Boot Menu
 item --gap Boot Locations
 item minixp               MiniXP
+item erpxe                ErPXE
 item bfo                  Boot.FedoraProject.Org
 item netboot              NetBoot.xyz
 item --gap Advanced Options
@@ -52,11 +53,15 @@ initrd /images/mxp14.iso
 chain /memdisk iso raw || goto failed
 
 :netboot
-chain http://boot.netboot.xyz
+chain http://boot.netboot.xyz  || goto failed
 goto menu
 
 :bfo
-chain http://dl.fedoraproject.org/pub/alt/bfo/ipxe.iso
+chain http://dl.fedoraproject.org/pub/alt/bfo/ipxe.iso || goto failed
+goto menu
+
+:erpxe
+chain https://raw.githubusercontent.com/ERPXE/tftpboot/master/undionly.kpxe || goto failed
 goto menu
 
 :netinfo

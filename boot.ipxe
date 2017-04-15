@@ -5,43 +5,44 @@ echo It works!
 
 ## MAIN MENU ##
 
-:start
+:menu
 menu iPXE boot menu for ${initiator-iqn}
-item --gap --             ------------------------- Operating systems ------------------------------
-item --key f freedos      Boot FreeDOS from iSCSI
-item --key m msdos        Boot MS-DOS from iSCSI
-item --key u ubuntu       Boot Ubuntu from iSCSI
-item --key v vmware       Boot VMware ESXi from iSCSI
-item --key w windows7     Boot Windows 7 from iSCSI
-item --key l menu-live    Live environments...
-item --gap --             ------------------------- Tools and utilities ----------------------------
-item --key p pxelinux     Load PXELinux menu
-item --key r menu-recovery Recovery tools...
-item --key d menu-diag    Diagnostics tools...
-item --key i menu-install Installers...
-item --gap --             ------------------------- Advanced options -------------------------------
+item --gap Boot from
+item netboot              NetBoot.xyz
+item --gap Advanced Options
 item --key c config       Configure settings
 item shell                Drop to iPXE shell
+item reload               Reload script
+item --gap Power Options
 item reboot               Reboot computer
+item shutdown             Shutdown computer
 item
-item --key x exit         Exit iPXE and continue BIOS boot
+item --key x exit         Exit
 choose --timeout ${menu-timeout} --default ${menu-default} selected || goto cancel
 set menu-timeout 0
 goto ${selected}
 
 :cancel
 echo You cancelled the menu, dropping you to a shell
+goto shell
 
 :shell
 echo Type 'exit' to get the back to the menu
 shell
 set menu-timeout 0
 set submenu-timeout 0
-goto start
+goto menu
 
 :failed
 echo Booting failed, dropping to shell
 goto shell
+
+:netboot
+chain http://boot.netboot.xyz
+goto menu
+
+:shutdown
+shutdown
 
 :reboot
 reboot
@@ -51,16 +52,14 @@ exit
 
 :config
 config
-goto start
+goto menu
 
 :back
 set submenu-timeout 0
 clear submenu-default
-goto start
+goto menu
 
-## MENU ITEMS ##
-
-:loop
+:reload
 imgfree
 chain http://ipxe.mawersoft.co.uk/boot.ipxe ||
-goto loop
+goto reload

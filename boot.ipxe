@@ -16,7 +16,8 @@ set cls ${cls:string}
 menu Mawersoft iPXE Boot Menu
 item --gap Boot Locations
 item minixp               MiniXP
-item netboot              (C) NetBoot.xyz
+item bfo                  Boot.FedoraProject.Org
+item netboot              NetBoot.xyz
 item --gap Advanced Options
 item --key c config       Configure settings
 item shell                Drop to iPXE shell
@@ -52,6 +53,10 @@ chain /memdisk iso raw || goto failed
 
 :netboot
 chain http://boot.netboot.xyz
+goto menu
+
+:bfo
+chain http://dl.fedoraproject.org/pub/alt/bfo/bfo.iso
 goto menu
 
 :netinfo

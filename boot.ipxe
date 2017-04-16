@@ -1,7 +1,7 @@
 #!ipxe
 
 echo It works!
-
+chain http://boot.rackspace.com/menu.ipxe ||
 
 :start
 chain --autofree boot.cfg ||

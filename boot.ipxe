@@ -1,7 +1,6 @@
 #!ipxe
 
 echo It works!
-chain http://boot.rackspace.com/menu.ipxe ||
 
 :start
 
@@ -46,7 +45,7 @@ isset ${menu} && set timeout 0 || set timeout 300000
 choose --timeout ${timeout} --default ${menu} menu || goto local
 echo ${cls}
 goto ${menu} ||
-chain ${menu}.ipxe || goto error
+chain ${menu}.ipxe || goto failed
 goto menu
 
 :cancel
@@ -61,8 +60,13 @@ set submenu-timeout 0
 goto menu
 
 :failed
-echo Booting failed, dropping to shell
-goto shell
+echo Error occured, press any key to return to menu ...
+prompt
+goto menu
+
+:local
+echo Booting from local disks ...
+exit 0
 
 :minixp
 initrd /images/mxp14.iso
@@ -124,6 +128,7 @@ clear submenu-default
 goto menu
 
 :reload
-imgfree
-chain http://ipxe.mawersoft.co.uk/boot.ipxe ||
+:reload
+echo Reloading boot.ipxe ...
+chain --autofree boot.ipxe ||
 goto reload

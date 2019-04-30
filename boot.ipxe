@@ -7,6 +7,6 @@ echo Trying DHCP...
 dhcp
 echo IP address: ${net0/ip} ; echo Subnet mask: ${net0/netmask}
 prompt --key 0x02 --timeout 2000 Press Ctrl-B for the iPXE command line... && shell ||
-chain http://ipxe.mawersoft.co.uk/main.ipxe || goto dhcp
+chain https://ipxe.mawersoft.co.uk/main.ipxe || goto dhcp
 prompt --key 0x02 --timeout 2000 Press Ctrl-B for the iPXE command line... && shell ||
 exit
